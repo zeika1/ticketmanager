@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>NIKKO ticket management software</title>
+</head>
+<body>
+    <h1>Your ticket list:</h1>
+    <form action="{{ url_for('addticket') }}" method="post">
+        <input type="text" name="ticket_title">
+        <button type="submit">Add ticket</button>
+    </form>
+
+    <ul>
+        <h2>To Do:</h2>
+        <ul>
+            {% for ticket in active_usr_ticket %}
+
+                {% if ticket.ticket_status == 'to_do' %}
+                    <li>
+                        <a href="{{url_for('index', ID = ticket.ID )}}">{{ ticket.title }}</a>
+                        <a href="{{ url_for('edit_ticket', ticket_id=ticket.ID) }}">Rename</a>
+                        <a href="{{ url_for('delete_ticket', ticket_id=ticket.ID) }}">Delete</a>
+                        <a href="{{ url_for('change_ticket_status', ticket_id=ticket.ID, new_status='in progress') }}">Mark as In Progress</a>
+                        <a href="{{ url_for('change_ticket_status', ticket_id=ticket.ID, new_status='done') }}">Mark as Done</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+
+
+
+
+
+
+
+        <h2>In Progress:</h2>
+        <ul>
+            {% for ticket in active_usr_ticket %}
+
+                {% if ticket.ticket_status == 'in progress' %}
+                    <li>
+                        <a href="{{url_for('index', ID = ticket.ID )}}">{{ ticket.title }}</a>
+                        <a href="{{ url_for('edit_ticket', ticket_id=ticket.ID) }}">Rename</a>
+                        <a href="{{ url_for('delete_ticket', ticket_id=ticket.ID) }}">Delete</a>
+                        <a href="{{ url_for('change_ticket_status', ticket_id=ticket.ID, new_status='to_do') }}">Mark as To do</a>
+                        <a href="{{ url_for('change_ticket_status', ticket_id=ticket.ID, new_status='done') }}">Mark as Done</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+
+        <h2>Done:</h2>
+        <ul>
+            {% for ticket in active_usr_ticket %}
+                {% if ticket.ticket_status == 'done' %}
+                    <li>
+                        <a href="{{url_for('index', ID = ticket.ID )}}">{{ ticket.title }}</a>
+                        <a href="{{ url_for('edit_ticket', ticket_id=ticket.ID) }}">Rename</a>
+                        <a href="{{ url_for('delete_ticket', ticket_id=ticket.ID) }}">Delete</a>
+                        <a href="{{ url_for('change_ticket_status', ticket_id=ticket.ID, new_status='in progress') }}">Mark as In Progress</a>
+                        <a href="{{ url_for('change_ticket_status', ticket_id=ticket.ID, new_status='to_do') }}">Mark as To Do</a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    </ul>
+
+
+
+
+
+    <h3><a href="{{url_for('logout')}}">Log out</a></h3>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for msg in messages %}
+                <P>{{msg}}</P>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+
+</body>
+
+</html>

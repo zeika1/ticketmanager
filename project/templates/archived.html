@@ -1,0 +1,13 @@
+<h4>Archived Tasks</h4>
+<ul>
+    {% for archived_task in archives %}
+        <li>{{ archived_task['task'] }}</li>
+        <a href="{{ url_for('unarchive', index=loop.index0) }}">Unarchive</a>
+    {% endfor %}
+</ul>
+<a href="{{ url_for('index') }}">Back to To Do List</a>
+
+
+
+
+
